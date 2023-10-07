@@ -1,14 +1,18 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, SafeAreaView} from 'react-native';
+import { StyleSheet, Text, View, Pressable, ActivityIndicator} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import ViewerWV from './src/ViewerWV';
+import S3 from './src/S3';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
 
 export default function App() {
   const [buttonPressed, setButtonPressed] = React.useState(false);
   const [isLandScapeMode, setIsLandScapeMode] = React.useState(false);
+  const [injectedJSContent, setInjectedJSContent] = React.useState('');
+  const [isLoadingExamples, setIsLoadingExamples] = React.useState(false);
+  const s3 = new S3();
 
   const trackOrientationState = (state: ScreenOrientation.Orientation) => {
     const landscapeMode = state != ScreenOrientation.Orientation.PORTRAIT_UP && state != ScreenOrientation.Orientation.PORTRAIT_DOWN;
@@ -33,22 +37,39 @@ export default function App() {
   }, []);
 
   const onBtnPress = () => {
-    setButtonPressed(!buttonPressed);
+    if (buttonPressed) {
+      setButtonPressed(!buttonPressed);
+      return;
+    }
+
+    setIsLoadingExamples(true);
+    s3.listExamplesObjects('sang-ai', 'glb/')
+    .then((ret) => {
+      const jsContent = `window.VIEWER.app.loadExternal(${JSON.stringify(ret)});`;
+      setInjectedJSContent(jsContent);
+      setButtonPressed(!buttonPressed);
+    })
+    .catch((err) => {
+      setInjectedJSContent('');
+      alert(err);
+    })
+    .finally(() => setIsLoadingExamples(false));
   };
 
   const mainButton = () => {
     return (
       <View style={styles.buttonContainer}>
         <Pressable 
+          disabled={isLoadingExamples}
           style={({pressed}) => [
             styles.button,
             {
-              backgroundColor: pressed ? ' rgb(148, 163, 184)' : 'black',
+              backgroundColor: isLoadingExamples ? 'rgb(148, 163, 184)' : 'black',
             }
           ]}
           onPress={onBtnPress}
         >
-          <Text style={styles.buttonText}>{buttonPressed ? 'Close Display' : 'Open Display'}</Text>
+          {isLoadingExamples ? <ActivityIndicator/> : <Text style={styles.buttonText}>{buttonPressed ? 'Close' : 'Load Examples'}</Text>}
         </Pressable>
       </View>
     );
@@ -62,7 +83,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="light" />
+      <StatusBar style="light" hidden={isLandScapeMode && buttonPressed}/>
       <LinearGradient
         // Background Linear Gradient
         colors={['#a6c0fe', '#f68084']}
@@ -71,7 +92,7 @@ export default function App() {
         style={styles.background}
       >
         {
-          buttonPressed ? <ViewerWV injectedJavaScript='' addPadding={!isLandScapeMode} /> : null
+          buttonPressed ? <ViewerWV injectedJavaScript={injectedJSContent} addPadding={!isLandScapeMode} /> : null
         }
         {
           isLandScapeMode ? null : buttonPressed ? noteForLandscapeMode() : null
