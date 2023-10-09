@@ -92,7 +92,7 @@ export default function App() {
         style={styles.background}
       >
         {
-          buttonPressed ? <ViewerWV injectedJavaScript={injectedJSContent} addPadding={!isLandScapeMode} /> : null
+          buttonPressed ? <ViewerWV injectedJavaScript={injectedJSContent} fullScreen={isLandScapeMode} /> : null
         }
         {
           isLandScapeMode ? null : buttonPressed ? noteForLandscapeMode() : null
