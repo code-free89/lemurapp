@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "LemurApp",
-    "slug": "lemurapp",
+    "name": "LemurScope",
+    "slug": "lemurscope",
     "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/icon.png",
@@ -16,14 +16,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "ai.hal51.LemurApp"
+      "bundleIdentifier": "ai.hal51.LemurScope"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "ai.hal51.LemurApp"
+      "package": "ai.hal51.LemurScope"
     },
     "web": {
       "favicon": "./assets/favicon.png"

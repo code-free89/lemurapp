@@ -1,4 +1,4 @@
-package ai.hal51.LemurApp;
+package ai.hal51.LemurScope;
 
 import android.app.Application;
 import android.content.res.Configuration;

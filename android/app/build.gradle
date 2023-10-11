@@ -81,9 +81,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'ai.hal51.LemurApp'
+    namespace 'ai.hal51.LemurScope'
     defaultConfig {
-        applicationId 'ai.hal51.LemurApp'
+        applicationId 'ai.hal51.LemurScope'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
