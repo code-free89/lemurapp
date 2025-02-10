@@ -2,7 +2,7 @@
   "expo": {
     "name": "LemurScope",
     "slug": "lemurscope",
-    "version": "1.0.0",
+    "version": "1.0.8",
     "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "ai.hal51.LemurScope"
@@ -23,7 +21,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "ai.hal51.LemurScope"
+      "package": "com.hal51.LemurScope",
+      "versionCode": 8
     },
     "web": {
       "favicon": "./assets/favicon.png"
